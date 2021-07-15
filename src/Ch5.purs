@@ -2,7 +2,7 @@ module Ch5 where
 
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (Unit, show)
+import Prelude (Unit, discard, show)
 
 flip :: ∀ a b c. (a -> b -> c) -> b -> a -> c
 flip f x y = f y x
@@ -15,6 +15,12 @@ apply f x = f x
 
 infixr 0 apply as $
 
+applyFlipped :: ∀ a b. a -> (a -> b) -> b
+applyFlipped = flip apply
+
+infixl 1 applyFlipped as #
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
+  flip const 1 2 # show # log

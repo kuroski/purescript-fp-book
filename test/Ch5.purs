@@ -24,3 +24,8 @@ main = launchAff_ $ runSpec [consoleReporter] do
       (\f -> f + 1) `Ch5.apply` 4 `shouldEqual` 5
     it "$" do
       (length Ch5.$ fromMaybe [] Ch5.$ tail (1 .. 5)) `shouldEqual` 4
+    it "applyFlipped" do
+      Ch5.applyFlipped 2 (\f -> f + 1) `shouldEqual` 3
+      4 `Ch5.applyFlipped` (\f -> f + 1) `shouldEqual` 5
+    it "#" do
+      (tail (1 .. 5) # fromMaybe [] # length) `shouldEqual` 4
