@@ -30,6 +30,10 @@ main = launchAff_ $ runSpec [consoleReporter] do
       4 `Ch5.applyFlipped` (\f -> f + 1) `shouldEqual` 5
     it "#" do
       (tail (1 .. 5) # fromMaybe [] # length) `shouldEqual` 4
-    it "List.singleton" do
-      Ch5.singleton "xyz" `shouldEqual` ("xyz" : Nil)
-      Ch5.singleton 2 `shouldEqual` (2 : Nil)
+    describe "List" do
+      it "List.singleton" do
+        Ch5.singleton "xyz" `shouldEqual` ("xyz" : Nil)
+        Ch5.singleton 2 `shouldEqual` (2 : Nil)
+      it "List.null" do
+        Ch5.null Nil `shouldEqual` true
+        Ch5.null ("xyz" : Nil) `shouldEqual` false

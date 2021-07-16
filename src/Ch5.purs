@@ -21,8 +21,14 @@ applyFlipped = flip apply
 
 infixl 1 applyFlipped as #
 
+-- List
+
 singleton :: ∀ a. a -> List a
 singleton x = x : Nil
+
+null :: ∀ a. List a -> Boolean
+null Nil = true
+null _ = false
 
 test :: Effect Unit
 test = do
