@@ -1,9 +1,9 @@
 module Ch5 where
 
+import Prelude (Unit, discard, show, (+))
 import Data.List (List(..), (:))
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (Unit, discard, show)
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -52,7 +52,6 @@ applyFlipped = flip apply
 infixl 1 applyFlipped as #
 
 -- List
-
 -- | Create a list with a single element.
 -- |
 -- | ```purescript
@@ -70,6 +69,7 @@ singleton x = x : Nil
 -- | ```
 null :: ∀ a. List a -> Boolean
 null Nil = true
+
 null _ = false
 
 -- | Append an element to the end of a list, creating a new list.
@@ -79,7 +79,18 @@ null _ = false
 -- | ```
 snoc :: ∀ a. List a -> a -> List a
 snoc Nil x = singleton x
+
 snoc (h : t) x = h : snoc t x
+
+-- | Get the length of a list
+-- |
+-- | ```purescript
+-- | length (1 : 2 : 3 : Nil) = 3
+-- | ```
+length :: ∀ a. List a -> Int
+length Nil = 0
+
+length (_ : t) = 1 + length t
 
 test :: Effect Unit
 test = do
