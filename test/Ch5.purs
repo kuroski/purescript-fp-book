@@ -4,7 +4,7 @@ import Prelude
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
-import Data.Maybe (fromMaybe)
+import Data.Maybe (Maybe(..), fromMaybe)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Test.Spec (describe, it)
@@ -42,3 +42,6 @@ main =
               Ch5.snoc (1 : 2 : Nil) 3 `shouldEqual` (1 : 2 : 3 : Nil)
             it "List.length" do
               Ch5.length (1 : 2 : 3 : Nil) `shouldEqual` 3
+            it "List.head" do
+              Ch5.head ("abc" : "123" : Nil) `shouldEqual` Just "abc"
+              Ch5.head (Nil :: List Unit) `shouldEqual` Nothing

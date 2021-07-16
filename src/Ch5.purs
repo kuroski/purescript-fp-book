@@ -1,9 +1,10 @@
 module Ch5 where
 
-import Prelude (Unit, discard, show, (+))
 import Data.List (List(..), (:))
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
+import Prelude (type (~>), Unit, discard, show, (+))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -94,6 +95,16 @@ length l = go 0 l
   go acc Nil = acc
 
   go acc (_ : t) = go (acc + 1) t
+
+-- | Get the first element in a list, or Nothing if the list is empty.
+-- |
+-- | ```purescript
+-- | head (1 : 2 : 3 : Nil) = 1
+-- | ```
+head :: List ~> Maybe
+head Nil = Nothing
+
+head (h : _) = Just h
 
 test :: Effect Unit
 test = do
