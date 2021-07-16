@@ -4,6 +4,7 @@ import Prelude
 
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
+import Data.List (List(..), (:))
 import Data.Maybe (fromMaybe)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
@@ -29,3 +30,6 @@ main = launchAff_ $ runSpec [consoleReporter] do
       4 `Ch5.applyFlipped` (\f -> f + 1) `shouldEqual` 5
     it "#" do
       (tail (1 .. 5) # fromMaybe [] # length) `shouldEqual` 4
+    it "List.singleton" do
+      Ch5.singleton "xyz" `shouldEqual` ("xyz" : Nil)
+      Ch5.singleton 2 `shouldEqual` (2 : Nil)
