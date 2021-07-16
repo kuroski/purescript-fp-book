@@ -45,3 +45,6 @@ main =
             it "List.head" do
               Ch5.head ("abc" : "123" : Nil) `shouldEqual` Just "abc"
               Ch5.head (Nil :: List Unit) `shouldEqual` Nothing
+            it "List.tail" do
+              Ch5.tail ("abc" : "123" : "456" : Nil) `shouldEqual` Just ("123" : "456" : Nil)
+              Ch5.tail (Nil :: List Unit) `shouldEqual` Nothing

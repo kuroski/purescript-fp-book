@@ -106,6 +106,16 @@ head Nil = Nothing
 
 head (h : _) = Just h
 
+-- | Get all but the first element of a list, or Nothing if the list is empty.
+-- |
+-- | ```purescript
+-- | tail (1 : 2 : 3 : Nil) = (2 : 3 : Nil)
+-- | ```
+tail :: ∀ a. List a -> Maybe (List a)
+tail Nil = Nothing
+
+tail (_ : t) = Just t
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
