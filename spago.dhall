@@ -8,6 +8,7 @@ You can edit this file as you like.
   , "arrays"
   , "console"
   , "effect"
+  , "lists"
   , "maybe"
   , "prelude"
   , "psci-support"
