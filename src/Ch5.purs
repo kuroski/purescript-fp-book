@@ -88,9 +88,12 @@ snoc (h : t) x = h : snoc t x
 -- | length (1 : 2 : 3 : Nil) = 3
 -- | ```
 length :: ∀ a. List a -> Int
-length Nil = 0
+length l = go 0 l
+  where
+  go :: Int -> List a -> Int
+  go acc Nil = acc
 
-length (_ : t) = 1 + length t
+  go acc (_ : t) = go (acc + 1) t
 
 test :: Effect Unit
 test = do
