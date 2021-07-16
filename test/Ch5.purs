@@ -37,3 +37,5 @@ main = launchAff_ $ runSpec [consoleReporter] do
       it "List.null" do
         Ch5.null Nil `shouldEqual` true
         Ch5.null ("xyz" : Nil) `shouldEqual` false
+      it "List.snoc" do
+        Ch5.snoc (1 : 2 : Nil) 3 `shouldEqual` (1 : 2 : 3 : Nil)

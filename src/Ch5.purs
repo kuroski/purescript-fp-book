@@ -30,6 +30,10 @@ null :: ∀ a. List a -> Boolean
 null Nil = true
 null _ = false
 
+snoc :: ∀ a. List a -> a -> List a
+snoc Nil x = singleton x
+snoc (h : t) x = h : snoc t x
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
