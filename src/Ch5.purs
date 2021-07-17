@@ -4,7 +4,7 @@ import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (type (~>), Unit, discard, show, (+))
+import Prelude (type (~>), Unit, discard, show, (+), (-), (<))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -154,7 +154,28 @@ uncons Nil = Nothing
 
 uncons (h : t) = Just {head: h, tail: t}
 
+-- | Get the element at the specified index, or Nothing if the index is out-of-bounds.
+-- |
+-- | ```purescript
+-- | index (1 : Nil) 4 = Nothing
+-- | index (1 : 2 : 3 : Nil) 1 = Just 2
+-- | index (Nil :: List Unit) 0 = Nothing
+-- | ```
+index :: ∀ a. List a -> Int -> Maybe a
+index Nil _ = Nothing
 
+index _ i | i < 0 = Nothing
+index (h : _ ) 0 = Just h
+index (_ : t) i = index t (i - 1)
+
+
+
+-- length l = go 0 l
+--   where
+--   go :: Int -> List a -> Int
+--   go acc Nil = acc
+
+--   go acc (_ : t) = go (acc + 1) t
 
 
 test :: Effect Unit

@@ -59,3 +59,7 @@ main =
               Ch5.init (Nil :: List Unit) `shouldEqual` Nothing
             it "List.uncons" do
               Ch5.uncons (1 : 2 : 3 : Nil) `shouldEqual` Just { head: 1, tail: (2 : 3 : Nil)}
+            it "List.index" do
+              Ch5.index (1 : Nil) 4 `shouldEqual` Nothing
+              Ch5.index (1 : 2 : 3 : Nil) 1 `shouldEqual` Just 2
+              Ch5.index (Nil :: List Unit) 0 `shouldEqual` Nothing
