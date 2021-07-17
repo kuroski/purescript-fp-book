@@ -1,6 +1,7 @@
 module Test.Main where
 
 import Prelude
+
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
@@ -48,3 +49,7 @@ main =
             it "List.tail" do
               Ch5.tail ("abc" : "123" : "456" : Nil) `shouldEqual` Just ("123" : "456" : Nil)
               Ch5.tail (Nil :: List Unit) `shouldEqual` Nothing
+            it "List.last" do
+              Ch5.last (Nil :: List Unit) `shouldEqual` Nothing
+              Ch5.last (1 : Nil) `shouldEqual` Just 1
+              Ch5.last (1 : 2 : 3 : Nil) `shouldEqual` Just 3

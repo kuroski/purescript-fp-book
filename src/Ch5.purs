@@ -116,6 +116,21 @@ tail Nil = Nothing
 
 tail (_ : t) = Just t
 
+-- | Get the last element in a list, or Nothing if the list is empty.
+-- |
+-- | ```purescript
+-- | last (1 : 2 : 3 : Nil) = Just 3
+-- | last (Nil) = Nothing
+-- | ```
+last :: List ~> Maybe
+last Nil = Nothing
+
+last (h : Nil) = Just h
+last (_ : t) = last t
+
+
+
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
