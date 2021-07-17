@@ -144,6 +144,16 @@ init l = Just $ go l
   go (_ : Nil) = Nil
   go (h : t) = h : go t
 
+-- | Break a list into its first element, and the remaining elements, or Nothing if the list is empty.
+-- |
+-- | ```purescript
+-- | uncons (1 : 2 : 3 : Nil) = Just { head: 1, tail: (2 : 3 : Nil)}
+-- | ```
+uncons :: ∀ a. List a -> Maybe {head :: a, tail :: List a}
+uncons Nil = Nothing
+
+uncons (h : t) = Just {head: h, tail: t}
+
 
 
 
