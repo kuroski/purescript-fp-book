@@ -128,6 +128,22 @@ last Nil = Nothing
 last (h : Nil) = Just h
 last (_ : t) = last t
 
+-- | Get all but the last element of a list, or Nothing if the list is empty.
+-- |
+-- | ```purescript
+-- | init (1 : 2 : 3 : Nil) = Just (1 : 2 : Nil)
+-- | init (Nil) = Nothing
+-- | ```
+init :: ∀ a. List a -> Maybe (List a)
+init Nil = Nothing
+
+
+init l = Just $ go l
+  where
+  go Nil = Nil
+  go (_ : Nil) = Nil
+  go (h : t) = h : go t
+
 
 
 

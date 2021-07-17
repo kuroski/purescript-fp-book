@@ -53,3 +53,7 @@ main =
               Ch5.last (Nil :: List Unit) `shouldEqual` Nothing
               Ch5.last (1 : Nil) `shouldEqual` Just 1
               Ch5.last (1 : 2 : 3 : Nil) `shouldEqual` Just 3
+            it "List.init" do
+              Ch5.init (1 : 2 : 3 : Nil) `shouldEqual` Just (1 : 2 : Nil)
+              Ch5.init (1 : Nil) `shouldEqual` Just Nil
+              Ch5.init (Nil :: List Unit) `shouldEqual` Nothing
