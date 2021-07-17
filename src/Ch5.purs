@@ -168,6 +168,15 @@ index _ i | i < 0 = Nothing
 index (h : _ ) 0 = Just h
 index (_ : t) i = index t (i - 1)
 
+-- | Operator alias for Data.List.index (left-associative / precedence 8)
+-- |
+-- | ```purescript
+-- | (1 : Nil) !! 4 = Nothing
+-- | (1 : 2 : 3 : Nil) !! 1 = Just 2
+-- | (Nil :: List Unit) !! 0 = Nothing
+-- | ```
+infixl 8 index as !!
+
 
 
 -- length l = go 0 l

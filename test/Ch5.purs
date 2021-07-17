@@ -63,3 +63,7 @@ main =
               Ch5.index (1 : Nil) 4 `shouldEqual` Nothing
               Ch5.index (1 : 2 : 3 : Nil) 1 `shouldEqual` Just 2
               Ch5.index (Nil :: List Unit) 0 `shouldEqual` Nothing
+            it "!!" do
+              ((1 : Nil) Ch5.!! 4) `shouldEqual` Nothing
+              ((1 : 2 : 3 : Nil) Ch5.!! 1) `shouldEqual` Just 2
+              ((Nil :: List Unit) Ch5.!! 0) `shouldEqual` Nothing
