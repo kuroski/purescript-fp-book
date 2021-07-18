@@ -79,3 +79,5 @@ main =
               Ch5.reverse (1 : 2 : 3 : Nil) `shouldEqual` (3 : 2 : 1 : Nil)
             it "List.concat" do
               Ch5.concat ((1 : 2 : 3 : Nil) : (4 : 5 : Nil) : (6 : Nil) : (Nil) : Nil) `shouldEqual` (1 : 2 : 3 : 4 : 5 : 6 : Nil)
+            it "List.filter" do
+              Ch5.filter (4 > _) (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
