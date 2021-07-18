@@ -242,6 +242,17 @@ filter pred = reverse <<< go Nil
       | pred x = go (x : nl) xs
       | otherwise = go nl xs
 
+-- | Filter a list of optional values, keeping only the elements which contain a value.
+-- |
+-- | ```purescript
+-- | catMaybes (Just 1 : Nothing : Just 2 : Nothing : Nothing : Just 3 : Nil) = (1 : 2 : 3 : Nil)
+-- | ```
+catMaybes :: ∀ a. List (Maybe a) -> List a
+catMaybes Nil = Nil
+catMaybes (Nothing : xs) = catMaybes xs
+catMaybes (Just x : xs) = x : catMaybes xs
+
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
