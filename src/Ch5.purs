@@ -4,7 +4,7 @@ import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (type (~>), Unit, discard, otherwise, show, (+), (-), (<), (<<<))
+import Prelude (type (~>), Unit, discard, otherwise, show, negate, (+), (-), (<), (<<<), (==))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -251,6 +251,20 @@ catMaybes :: ∀ a. List (Maybe a) -> List a
 catMaybes Nil = Nil
 catMaybes (Nothing : xs) = catMaybes xs
 catMaybes (Just x : xs) = x : catMaybes xs
+
+-- | Create a list containing a range of integers, including both endpoints.
+-- |
+-- | ```purescript
+-- | range 1 5 = (1 : 2 : 3 : 4 : 5 : Nil)
+-- | range 3 (-3) = (3 : 2 : 1 : 0 : -1 : -2 : -3 : Nil)
+-- | ```
+range :: Int -> Int -> List Int
+range start end = go Nil end start
+  where
+    go rl start' end' 
+      | start' == end' = start' : rl
+      | otherwise = go (start' : rl) (start' + step) end'
+    step = if start < end then (-1) else 1
 
 
 test :: Effect Unit

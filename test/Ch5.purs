@@ -83,3 +83,6 @@ main =
               Ch5.filter (4 > _) (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
             it "List.catMaybes" do
               Ch5.catMaybes (Just 1 : Nothing : Just 2 : Nothing : Nothing : Just 3 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
+            it "List.range" do
+              Ch5.range 1 5 `shouldEqual` (1 : 2 : 3 : 4 : 5 : Nil)
+              Ch5.range 3 (-3) `shouldEqual` (3 : 2 : 1 : 0 : -1 : -2 : -3 : Nil)
