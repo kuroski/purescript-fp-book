@@ -137,7 +137,6 @@ last (_ : t) = last t
 init :: ∀ a. List a -> Maybe (List a)
 init Nil = Nothing
 
-
 init l = Just $ go l
   where
   go Nil = Nil
@@ -177,14 +176,19 @@ index (_ : t) i = index t (i - 1)
 -- | ```
 infixl 8 index as !!
 
-
-
--- length l = go 0 l
---   where
---   go :: Int -> List a -> Int
---   go acc Nil = acc
-
---   go acc (_ : t) = go (acc + 1) t
+-- | Find the first index for which a predicate holds.
+-- |
+-- | ```purescript
+-- | findIndex (_ >= 2) (1 : 2 : 3 : Nil) = Just 1
+-- | findIndex (_ >= 99) (1 : 2 : 3 : Nil) = Nothing
+-- | findIndex (10 /= _) (Nil :: List Int) = Nothing
+-- | ```
+findIndex :: ∀ a. (a -> Boolean) -> List a -> Maybe Int
+findIndex pred = go 0
+  where
+    go :: Int -> List a -> Maybe Int
+    go _ Nil = Nothing
+    go i (x : xs) = if pred x then Just i else go (i + 1) xs 
 
 
 test :: Effect Unit

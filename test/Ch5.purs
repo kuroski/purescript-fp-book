@@ -67,3 +67,7 @@ main =
               ((1 : Nil) Ch5.!! 4) `shouldEqual` Nothing
               ((1 : 2 : 3 : Nil) Ch5.!! 1) `shouldEqual` Just 2
               ((Nil :: List Unit) Ch5.!! 0) `shouldEqual` Nothing
+            it "List.findIndex" do
+              Ch5.findIndex (_ >= 2) (1 : 2 : 3 : Nil) `shouldEqual` Just 1
+              Ch5.findIndex (_ >= 99) (1 : 2 : 3 : Nil) `shouldEqual` Nothing
+              Ch5.findIndex (10 /= _) (Nil :: List Int) `shouldEqual` Nothing
