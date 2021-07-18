@@ -217,6 +217,16 @@ reverse = go Nil
     go rl Nil = rl
     go rl (x : xs) = go (x : rl) xs
 
+-- | Flatten a list of lists.
+-- |
+-- | ```purescript
+-- | concat ((1 : 2 : 3 : Nil) : (4 : 5 : Nil) : (6 : Nil) : (Nil) : Nil) = (1 : 2 : 3 : 4 : 5 : 6 : Nil)
+-- | ```
+concat :: ∀ a. List (List a) -> List a
+concat Nil = Nil
+concat (Nil : xss) = concat xss
+concat ((x : xs) : xss) = x : concat (xs : xss)
+
 
 test :: Effect Unit
 test = do
