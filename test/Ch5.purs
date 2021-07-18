@@ -75,3 +75,5 @@ main =
               Ch5.findLastIndex (_ == 10) (Nil :: List Int) `shouldEqual` Nothing
               Ch5.findLastIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil) `shouldEqual` Just 5
               Ch5.findLastIndex (_ == 10) (11 : 12 : Nil) `shouldEqual` Nothing
+            it "List.reverse" do
+              Ch5.reverse (1 : 2 : 3 : Nil) `shouldEqual` (3 : 2 : 1 : Nil)

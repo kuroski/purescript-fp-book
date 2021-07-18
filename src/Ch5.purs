@@ -206,6 +206,16 @@ findLastIndex pred = go Nothing 0
     go fi _ Nil = fi
     go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
 
+-- | Reverse a list.
+-- |
+-- | ```purescript
+-- | reverse (1 : 2 : 3 : Nil) = (3 : 2 : 1 : Nil)
+-- | ```
+reverse :: List ~> List
+reverse = go Nil
+  where
+    go rl Nil = rl
+    go rl (x : xs) = go (x : rl) xs
 
 
 test :: Effect Unit
