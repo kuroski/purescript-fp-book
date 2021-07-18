@@ -4,7 +4,7 @@ import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (type (~>), Unit, discard, otherwise, show, (+), (-), (<))
+import Prelude (type (~>), Unit, discard, otherwise, show, (+), (-), (<), (<<<))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -235,11 +235,12 @@ concat ((x : xs) : xss) = x : concat (xs : xss)
 -- | filter (4 > _) (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : Nil)
 -- | ```
 filter :: ∀ a. (a -> Boolean) -> List a -> List a
-filter _ Nil = Nil
-filter pred (x : xs)
-  | pred x = x : filter pred xs
-  | otherwise = filter pred xs
-
+filter pred = reverse <<< go Nil 
+  where
+    go nl Nil = nl
+    go nl (x : xs)  
+      | pred x = go (x : nl) xs
+      | otherwise = go nl xs
 
 test :: Effect Unit
 test = do
