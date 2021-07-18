@@ -191,6 +191,23 @@ findIndex pred = go 0
     go i (x : xs) = if pred x then Just i else go (i + 1) xs 
 
 
+
+-- | Find the last index for which a predicate holds.
+-- |
+-- | ```purescript
+-- | findIndex (_ == 10) (Nil :: List Int) = Nothing
+-- | findIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil) = Just 5
+-- | findIndex (_ == 10) (11 : 12 : Nil) = Nothing
+-- | ```
+findLastIndex :: ∀ a. (a -> Boolean) -> List a -> Maybe Int
+findLastIndex pred = go Nothing 0
+  where
+    go :: Maybe Int -> Int -> List a -> Maybe Int
+    go fi _ Nil = fi
+    go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
+
+
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2

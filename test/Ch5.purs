@@ -71,3 +71,7 @@ main =
               Ch5.findIndex (_ >= 2) (1 : 2 : 3 : Nil) `shouldEqual` Just 1
               Ch5.findIndex (_ >= 99) (1 : 2 : 3 : Nil) `shouldEqual` Nothing
               Ch5.findIndex (10 /= _) (Nil :: List Int) `shouldEqual` Nothing
+            it "List.findLastIndex" do
+              Ch5.findLastIndex (_ == 10) (Nil :: List Int) `shouldEqual` Nothing
+              Ch5.findLastIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil) `shouldEqual` Just 5
+              Ch5.findLastIndex (_ == 10) (11 : 12 : Nil) `shouldEqual` Nothing
