@@ -4,7 +4,7 @@ import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (type (~>), Unit, discard, otherwise, show, negate, (+), (-), (<), (<<<), (==))
+import Prelude (type (~>), Unit, discard, otherwise, show, negate, max, (+), (-), (<), (<<<), (==))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -273,7 +273,7 @@ range start end = go Nil end start
 -- | take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : 4 : 5 : Nil)
 -- | ```
 take :: ∀ a. Int -> List a -> List a
-take n = reverse <<< go Nil n 
+take n = reverse <<< go Nil (max 0 n) 
   where
     go nl _ Nil = nl
     go nl 0 _ = nl
