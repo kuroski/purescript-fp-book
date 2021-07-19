@@ -86,3 +86,6 @@ main =
             it "List.range" do
               Ch5.range 1 5 `shouldEqual` (1 : 2 : 3 : 4 : 5 : Nil)
               Ch5.range 3 (-3) `shouldEqual` (3 : 2 : 1 : 0 : -1 : -2 : -3 : Nil)
+            it "List.take" do
+              Ch5.take 5 (12 : 13 : 14 : Nil) `shouldEqual` (12 : 13 : 14 : Nil)
+              Ch5.take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : 4 : 5 : Nil)

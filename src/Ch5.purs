@@ -266,6 +266,18 @@ range start end = go Nil end start
       | otherwise = go (start' : rl) (start' + step) end'
     step = if start < end then (-1) else 1
 
+-- | Take the specified number of elements from the front of a list.
+-- |
+-- | ```purescript
+-- | take 5 (12 : 13 : 14 : Nil) = (12 : 13 : 14 : Nil)
+-- | take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : 4 : 5 : Nil)
+-- | ```
+take :: ∀ a. Int -> List a -> List a
+take _ Nil = Nil
+take 0 _ = Nil
+take 1 (x : _) = singleton x
+take i (x : xs) = x : take (i - 1) xs
+
 
 test :: Effect Unit
 test = do
