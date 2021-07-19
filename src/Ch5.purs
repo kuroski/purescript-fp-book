@@ -126,6 +126,7 @@ last :: List ~> Maybe
 last Nil = Nothing
 
 last (h : Nil) = Just h
+
 last (_ : t) = last t
 
 -- | Get all but the last element of a list, or Nothing if the list is empty.
@@ -140,7 +141,9 @@ init Nil = Nothing
 init l = Just $ go l
   where
   go Nil = Nil
+
   go (_ : Nil) = Nil
+
   go (h : t) = h : go t
 
 -- | Break a list into its first element, and the remaining elements, or Nothing if the list is empty.
@@ -148,10 +151,10 @@ init l = Just $ go l
 -- | ```purescript
 -- | uncons (1 : 2 : 3 : Nil) = Just { head: 1, tail: (2 : 3 : Nil)}
 -- | ```
-uncons :: ∀ a. List a -> Maybe {head :: a, tail :: List a}
+uncons :: ∀ a. List a -> Maybe { head :: a, tail :: List a }
 uncons Nil = Nothing
 
-uncons (h : t) = Just {head: h, tail: t}
+uncons (h : t) = Just { head: h, tail: t }
 
 -- | Get the element at the specified index, or Nothing if the index is out-of-bounds.
 -- |
@@ -163,8 +166,11 @@ uncons (h : t) = Just {head: h, tail: t}
 index :: ∀ a. List a -> Int -> Maybe a
 index Nil _ = Nothing
 
-index _ i | i < 0 = Nothing
-index (h : _ ) 0 = Just h
+index _ i
+  | i < 0 = Nothing
+
+index (h : _) 0 = Just h
+
 index (_ : t) i = index t (i - 1)
 
 -- | Operator alias for Data.List.index (left-associative / precedence 8)
@@ -186,11 +192,10 @@ infixl 8 index as !!
 findIndex :: ∀ a. (a -> Boolean) -> List a -> Maybe Int
 findIndex pred = go 0
   where
-    go :: Int -> List a -> Maybe Int
-    go _ Nil = Nothing
-    go i (x : xs) = if pred x then Just i else go (i + 1) xs 
+  go :: Int -> List a -> Maybe Int
+  go _ Nil = Nothing
 
-
+  go i (x : xs) = if pred x then Just i else go (i + 1) xs
 
 -- | Find the last index for which a predicate holds.
 -- |
@@ -202,9 +207,10 @@ findIndex pred = go 0
 findLastIndex :: ∀ a. (a -> Boolean) -> List a -> Maybe Int
 findLastIndex pred = go Nothing 0
   where
-    go :: Maybe Int -> Int -> List a -> Maybe Int
-    go fi _ Nil = fi
-    go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
+  go :: Maybe Int -> Int -> List a -> Maybe Int
+  go fi _ Nil = fi
+
+  go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
 
 -- | Reverse a list.
 -- |
@@ -214,8 +220,9 @@ findLastIndex pred = go Nothing 0
 reverse :: List ~> List
 reverse = go Nil
   where
-    go rl Nil = rl
-    go rl (x : xs) = go (x : rl) xs
+  go rl Nil = rl
+
+  go rl (x : xs) = go (x : rl) xs
 
 -- | Flatten a list of lists.
 -- |
@@ -224,10 +231,10 @@ reverse = go Nil
 -- | ```
 concat :: ∀ a. List (List a) -> List a
 concat Nil = Nil
+
 concat (Nil : xss) = concat xss
+
 concat ((x : xs) : xss) = x : concat (xs : xss)
-
-
 
 -- | Filter a list, keeping the elements which satisfy a predicate function.
 -- |
@@ -235,12 +242,13 @@ concat ((x : xs) : xss) = x : concat (xs : xss)
 -- | filter (4 > _) (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : Nil)
 -- | ```
 filter :: ∀ a. (a -> Boolean) -> List a -> List a
-filter pred = reverse <<< go Nil 
+filter pred = reverse <<< go Nil
   where
-    go nl Nil = nl
-    go nl (x : xs)  
-      | pred x = go (x : nl) xs
-      | otherwise = go nl xs
+  go nl Nil = nl
+
+  go nl (x : xs)
+    | pred x = go (x : nl) xs
+    | otherwise = go nl xs
 
 -- | Filter a list of optional values, keeping only the elements which contain a value.
 -- |
@@ -249,7 +257,9 @@ filter pred = reverse <<< go Nil
 -- | ```
 catMaybes :: ∀ a. List (Maybe a) -> List a
 catMaybes Nil = Nil
+
 catMaybes (Nothing : xs) = catMaybes xs
+
 catMaybes (Just x : xs) = x : catMaybes xs
 
 -- | Create a list containing a range of integers, including both endpoints.
@@ -261,10 +271,11 @@ catMaybes (Just x : xs) = x : catMaybes xs
 range :: Int -> Int -> List Int
 range start end = go Nil end start
   where
-    go rl start' end' 
-      | start' == end' = start' : rl
-      | otherwise = go (start' : rl) (start' + step) end'
-    step = if start < end then (-1) else 1
+  go rl start' end'
+    | start' == end' = start' : rl
+    | otherwise = go (start' : rl) (start' + step) end'
+
+  step = if start < end then (-1) else 1
 
 -- | Take the specified number of elements from the front of a list.
 -- |
@@ -273,12 +284,25 @@ range start end = go Nil end start
 -- | take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : 4 : 5 : Nil)
 -- | ```
 take :: ∀ a. Int -> List a -> List a
-take n = reverse <<< go Nil (max 0 n) 
+take n = reverse <<< go Nil (max 0 n)
   where
-    go nl _ Nil = nl
-    go nl 0 _ = nl
-    go nl n' (x : xs) = go (x : nl) (n' - 1) xs
+  go nl _ Nil = nl
 
+  go nl 0 _ = nl
+
+  go nl n' (x : xs) = go (x : nl) (n' - 1) xs
+
+-- | Drop the specified number of elements from the front of a list.
+-- |
+-- | ```purescript
+-- | drop 2 (1 : 2 : 3 : 4 : 5 : Nil) = (3 : 4 : 5 : Nil)
+-- | ```
+drop :: ∀ a. Int -> List a -> List a
+drop _ Nil = Nil
+
+drop 0 l = l
+
+drop n (_ : xs) = drop (n - 1) xs
 
 test :: Effect Unit
 test = do

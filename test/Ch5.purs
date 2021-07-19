@@ -1,7 +1,6 @@
 module Test.Main where
 
 import Prelude
-
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
@@ -58,7 +57,7 @@ main =
               Ch5.init (1 : Nil) `shouldEqual` Just Nil
               Ch5.init (Nil :: List Unit) `shouldEqual` Nothing
             it "List.uncons" do
-              Ch5.uncons (1 : 2 : 3 : Nil) `shouldEqual` Just { head: 1, tail: (2 : 3 : Nil)}
+              Ch5.uncons (1 : 2 : 3 : Nil) `shouldEqual` Just { head: 1, tail: (2 : 3 : Nil) }
             it "List.index" do
               Ch5.index (1 : Nil) 4 `shouldEqual` Nothing
               Ch5.index (1 : 2 : 3 : Nil) 1 `shouldEqual` Just 2
@@ -90,3 +89,7 @@ main =
               Ch5.take (-1) (12 : 13 : 14 : Nil) `shouldEqual` (Nil)
               Ch5.take 5 (12 : 13 : 14 : Nil) `shouldEqual` (12 : 13 : 14 : Nil)
               Ch5.take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : 4 : 5 : Nil)
+            it "List.drop" do
+              Ch5.drop (-1) (12 : 13 : 14 : Nil) `shouldEqual` (Nil)
+              Ch5.drop 2 (1 : 2 : 3 : 4 : 5 : Nil) `shouldEqual` (3 : 4 : 5 : Nil)
+              Ch5.drop 5 (1 : 2 : Nil) `shouldEqual` (Nil)
