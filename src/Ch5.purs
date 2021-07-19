@@ -273,10 +273,11 @@ range start end = go Nil end start
 -- | take 5 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : 4 : 5 : Nil)
 -- | ```
 take :: ∀ a. Int -> List a -> List a
-take _ Nil = Nil
-take 0 _ = Nil
-take 1 (x : _) = singleton x
-take i (x : xs) = x : take (i - 1) xs
+take n = reverse <<< go Nil n 
+  where
+    go nl _ Nil = nl
+    go nl 0 _ = nl
+    go nl n' (x : xs) = go (x : nl) (n' - 1) xs
 
 
 test :: Effect Unit
