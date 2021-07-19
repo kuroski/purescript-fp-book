@@ -315,6 +315,17 @@ takeWhile _ Nil = Nil
 
 takeWhile pred (x : xs) = if pred x then x : takeWhile pred xs else Nil
 
+-- | Drop those elements from the front of a list which match a predicate.
+-- |
+-- | ```purescript
+-- | dropWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil) = (3 : 99 : 101 : Nil)
+-- | dropWhile (_ == -17) (1 : 2 : 3 : Nil) = (1 : 2 : 3 : Nil)
+-- | ```
+dropWhile :: ∀ a. (a -> Boolean) -> List a -> List a
+dropWhile _ Nil = Nil
+
+dropWhile pred l@(x : xs) = if pred x then dropWhile pred xs else l
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2

@@ -96,3 +96,6 @@ main =
             it "List.takeWhile" do
               Ch5.takeWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil) `shouldEqual` (5 : 4 : Nil)
               Ch5.takeWhile (_ == -17) (1 : 2 : 3 : Nil) `shouldEqual` (Nil)
+            it "List.dropWhile" do
+              Ch5.dropWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil) `shouldEqual` (3 : 99 : 101 : Nil)
+              Ch5.dropWhile (_ == -17) (1 : 2 : 3 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
