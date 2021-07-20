@@ -1,10 +1,12 @@
 module Test.Main where
 
 import Prelude
+
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Test.Spec (describe, it)
@@ -105,3 +107,7 @@ main =
             it "List.dropEnd" do
               Ch5.dropEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
               Ch5.dropEnd 10 (1 : Nil) `shouldEqual` (Nil)
+            it "List.zip" do
+              Ch5.zip (1 : 2 : 3 : Nil) ("a" : "b" : "c" : "d" : "e" : Nil) `shouldEqual` ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil)
+              Ch5.zip ("a" : "b" : "c" : "d" : "e" : Nil) (1 : 2 : 3 : Nil) `shouldEqual` ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil)
+              Ch5.zip (Nil :: List Unit) (1 : 2 : Nil) `shouldEqual` Nil

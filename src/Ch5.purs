@@ -353,6 +353,19 @@ dropEnd i = go >>> snd
     go (x : xs) = go xs
       # \(Tuple c nl) -> Tuple (c + 1) $ if c < i then nl else x : nl
 
+-- | Collect pairs of elements at the same positions in two lists.
+-- |
+-- | ```purescript
+-- | zip (1 : 2 : 3 : Nil) ("a" : "b" : "c" : "d" : "e" : Nil) = ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil)
+-- | zip ("a" : "b" : "c" : "d" : "e" : Nil) (1 : 2 : 3 : Nil) = ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil)
+-- | zip (Nil :: List Unit) (1 : 2 : Nil) = Nil
+-- | ```
+zip :: ∀ a b. List a -> List b -> List (Tuple a b)
+zip _ Nil = Nil
+zip Nil _ = Nil
+zip (x : xs) (y : ys) = Tuple x y : zip xs ys
+  
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
