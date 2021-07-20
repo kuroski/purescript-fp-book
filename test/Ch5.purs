@@ -102,3 +102,6 @@ main =
             it "List.takeEnd" do
               Ch5.takeEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (4 : 5 : 6 : Nil)
               Ch5.takeEnd 10 (1 : Nil) `shouldEqual` (1 : Nil)
+            it "List.dropEnd" do
+              Ch5.dropEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil) `shouldEqual` (1 : 2 : 3 : Nil)
+              Ch5.dropEnd 10 (1 : Nil) `shouldEqual` (Nil)

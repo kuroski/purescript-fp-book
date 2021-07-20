@@ -340,6 +340,19 @@ takeEnd i = go >>> snd
     go (x : xs) = go xs
       # \tup@(Tuple c nl) -> if c < i then Tuple (c + 1) (x : nl) else tup
 
+-- | Drop the specified number of elements from the end of a list.
+-- |
+-- | ```purescript
+-- | dropEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (1 : 2 : 3 : Nil)
+-- | dropEnd 10 (1 : Nil) = (Nil)
+-- | ```
+dropEnd :: ∀ a. Int -> List a -> List a
+dropEnd i = go >>> snd
+  where
+    go Nil = Tuple 0 Nil
+    go (x : xs) = go xs
+      # \(Tuple c nl) -> Tuple (c + 1) $ if c < i then nl else x : nl
+
 test :: Effect Unit
 test = do
   log $ show $ flip const 1 2
