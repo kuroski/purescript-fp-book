@@ -2,9 +2,10 @@ module Ch5 where
 
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..))
+import Data.Tuple (Tuple(..), snd)
 import Effect (Effect)
 import Effect.Console (log)
-import Prelude (type (~>), Unit, discard, otherwise, show, negate, max, (+), (-), (<), (<<<), (==))
+import Prelude (type (~>), Unit, discard, max, negate, otherwise, show, (+), (-), (<), (<<<), (==), (>>>))
 
 -- | Flips the order of the arguments to a function of two arguments.
 -- |
@@ -325,6 +326,19 @@ dropWhile :: ∀ a. (a -> Boolean) -> List a -> List a
 dropWhile _ Nil = Nil
 
 dropWhile pred l@(x : xs) = if pred x then dropWhile pred xs else l
+
+-- | Take the specified number of elements from the end of a list.
+-- |
+-- | ```purescript
+-- | takeEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil) = (4 : 5 : 6 : Nil)
+-- | takeEnd 10 (1 : Nil) = (1 : Nil)
+-- | ```
+takeEnd :: ∀ a. Int -> List a -> List a
+takeEnd i = go >>> snd
+  where
+    go Nil = Tuple 0 Nil
+    go (x : xs) = go xs
+      # \tup@(Tuple c nl) -> if c < i then Tuple (c + 1) (x : nl) else tup
 
 test :: Effect Unit
 test = do
