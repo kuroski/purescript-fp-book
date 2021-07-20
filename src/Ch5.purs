@@ -336,8 +336,10 @@ dropWhile pred l@(x : xs) = if pred x then dropWhile pred xs else l
 takeEnd :: ∀ a. Int -> List a -> List a
 takeEnd i = go >>> snd
   where
-    go Nil = Tuple 0 Nil
-    go (x : xs) = go xs
+  go Nil = Tuple 0 Nil
+
+  go (x : xs) =
+    go xs
       # \tup@(Tuple c nl) -> if c < i then Tuple (c + 1) (x : nl) else tup
 
 -- | Drop the specified number of elements from the end of a list.
@@ -349,8 +351,10 @@ takeEnd i = go >>> snd
 dropEnd :: ∀ a. Int -> List a -> List a
 dropEnd i = go >>> snd
   where
-    go Nil = Tuple 0 Nil
-    go (x : xs) = go xs
+  go Nil = Tuple 0 Nil
+
+  go (x : xs) =
+    go xs
       # \(Tuple c nl) -> Tuple (c + 1) $ if c < i then nl else x : nl
 
 -- | Collect pairs of elements at the same positions in two lists.
@@ -362,9 +366,24 @@ dropEnd i = go >>> snd
 -- | ```
 zip :: ∀ a b. List a -> List b -> List (Tuple a b)
 zip _ Nil = Nil
+
 zip Nil _ = Nil
+
 zip (x : xs) (y : ys) = Tuple x y : zip xs ys
-  
+
+-- | Transforms a list of pairs into a list of first components and a list of second components.
+-- |
+-- | ```purescript
+-- | unzip ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil) = Tuple (1 : 2 : 3 : Nil) ("a" : "b" : "c" : "d" : "e" : Nil)
+-- | unzip ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil) = Tuple ("a" : "b" : "c" : "d" : "e" : Nil) (1 : 2 : 3 : Nil)
+-- | unzip (Nil :: List (Tuple Unit Unit)) = Tuple Nil Nil
+-- | ```
+unzip :: ∀ a b. List (Tuple a b) -> Tuple (List a) (List b)
+unzip Nil = Tuple Nil Nil
+
+unzip (Tuple x y : tl) =
+  unzip tl
+    # \(Tuple xs ys) -> Tuple (x : xs) (y : ys)
 
 test :: Effect Unit
 test = do

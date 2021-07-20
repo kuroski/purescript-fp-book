@@ -1,7 +1,6 @@
 module Test.Main where
 
 import Prelude
-
 import Ch5 as Ch5
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
@@ -111,3 +110,7 @@ main =
               Ch5.zip (1 : 2 : 3 : Nil) ("a" : "b" : "c" : "d" : "e" : Nil) `shouldEqual` ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil)
               Ch5.zip ("a" : "b" : "c" : "d" : "e" : Nil) (1 : 2 : 3 : Nil) `shouldEqual` ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil)
               Ch5.zip (Nil :: List Unit) (1 : 2 : Nil) `shouldEqual` Nil
+            it "List.unzip" do
+              Ch5.unzip ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil) `shouldEqual` (Tuple (1 : 2 : 3 : Nil) ("a" : "b" : "c" : Nil))
+              Ch5.unzip ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil) `shouldEqual` (Tuple ("a" : "b" : "c" : Nil) (1 : 2 : 3 : Nil))
+              Ch5.unzip (Nil :: List (Tuple Unit Unit)) `shouldEqual` (Tuple Nil Nil)
