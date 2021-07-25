@@ -1,6 +1,7 @@
 module Ch6 where
 
 import Prelude
+import Data.String as String
 import Effect (Effect)
 import Effect.Class.Console (log)
 
@@ -31,6 +32,19 @@ data Company
 data Residence
   = Home Address
   | Facility Address
+
+data EmptyLot
+  = EmptyLot
+    { daysEmpty :: Int
+    , price :: Int
+    , address :: Address
+    }
+
+data HasAddress
+  = PersonAddress Person
+  | CompanyAddress Company
+  | ResidenceAddress Residence
+  | EmptyLotAddress EmptyLot
 
 person :: Person
 person =
@@ -95,6 +109,37 @@ getResidenceDirections =
         Home address -> address
         Facility address -> address
 
+getEmptyLotDirections :: EmptyLot -> Directions
+getEmptyLotDirections (EmptyLot l) = getDirections l.address
+
+getDirectionsTo :: HasAddress -> Directions
+getDirectionsTo = case _ of
+  PersonAddress p -> getPersonDirections p
+  CompanyAddress c -> getCompanyDirections c
+  ResidenceAddress residence -> getResidenceDirections residence
+  EmptyLotAddress l -> getEmptyLotDirections l
+
+-- 
+newtype Miles
+  = Miles Int
+
+getMiles :: Address -> Miles
+getMiles address = Miles (String.length address.street1)
+
+getMilesTo :: HasAddress -> Miles
+getMilesTo =
+  getMiles
+    <<< case _ of
+        PersonAddress (Person { address }) -> address
+        CompanyAddress (Company { address }) -> address
+        ResidenceAddress (Home address) -> address
+        ResidenceAddress (Facility address) -> address
+        EmptyLotAddress (EmptyLot { address }) -> address
+
+--
 test :: Effect Unit
 test = do
-  log $ show $ getPersonDirections person
+  log $ show $ getDirectionsTo (PersonAddress person)
+  log $ show $ getDirectionsTo (CompanyAddress company)
+  log $ show $ getDirectionsTo (ResidenceAddress home)
+  log $ show $ getDirectionsTo (ResidenceAddress facility)
