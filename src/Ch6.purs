@@ -1,7 +1,6 @@
 module Ch6 where
 
 import Prelude
-import Data.String as String
 import Effect (Effect)
 import Effect.Class.Console (log)
 
@@ -16,6 +15,9 @@ type Address
 type Directions
   = String
 
+class HasAddress a where
+  getAddress :: a -> Address
+
 data Person
   = Person
     { name :: String
@@ -23,15 +25,25 @@ data Person
     , address :: Address
     }
 
+instance hasAddressPerson :: HasAddress Person where
+  getAddress (Person p) = p.address
+
 data Company
   = Company
     { name :: String
     , address :: Address
     }
 
+instance hasAddressCompany :: HasAddress Company where
+  getAddress (Company c) = c.address
+
 data Residence
   = Home Address
   | Facility Address
+
+instance hasAddressResidence :: HasAddress Residence where
+  getAddress (Home address) = address
+  getAddress (Facility address) = address
 
 data EmptyLot
   = EmptyLot
@@ -40,11 +52,8 @@ data EmptyLot
     , address :: Address
     }
 
-data HasAddress
-  = PersonAddress Person
-  | CompanyAddress Company
-  | ResidenceAddress Residence
-  | EmptyLotAddress EmptyLot
+instance hasAddressEmptyLot :: HasAddress EmptyLot where
+  getAddress (EmptyLot e) = e.address
 
 person :: Person
 person =
@@ -93,53 +102,29 @@ facility =
     , zip: "35805"
     }
 
-getDirections :: Address -> Directions
-getDirections address = address.street1 <> " " <> address.street2 <> " " <> address.city <> " " <> address.state <> " " <> address.zip
+getDirections :: ∀ a. HasAddress a => a -> Directions
+getDirections hasAddress =
+  let
+    address = getAddress hasAddress
+  in
+    address.street1 <> " " <> address.street2 <> " " <> address.city <> " " <> address.state <> " " <> address.zip
 
-getPersonDirections :: Person -> Directions
-getPersonDirections (Person p) = getDirections p.address
-
-getCompanyDirections :: Company -> Directions
-getCompanyDirections (Company c) = getDirections c.address
-
-getResidenceDirections :: Residence -> Directions
-getResidenceDirections =
-  getDirections
-    <<< case _ of
-        Home address -> address
-        Facility address -> address
-
-getEmptyLotDirections :: EmptyLot -> Directions
-getEmptyLotDirections (EmptyLot l) = getDirections l.address
-
-getDirectionsTo :: HasAddress -> Directions
-getDirectionsTo = case _ of
-  PersonAddress p -> getPersonDirections p
-  CompanyAddress c -> getCompanyDirections c
-  ResidenceAddress residence -> getResidenceDirections residence
-  EmptyLotAddress l -> getEmptyLotDirections l
-
--- 
-newtype Miles
-  = Miles Int
-
-getMiles :: Address -> Miles
-getMiles address = Miles (String.length address.street1)
-
-getMilesTo :: HasAddress -> Miles
-getMilesTo =
-  getMiles
-    <<< case _ of
-        PersonAddress (Person { address }) -> address
-        CompanyAddress (Company { address }) -> address
-        ResidenceAddress (Home address) -> address
-        ResidenceAddress (Facility address) -> address
-        EmptyLotAddress (EmptyLot { address }) -> address
-
---
+-- newtype Miles
+--   = Miles Int
+-- getMiles :: Address -> Miles
+-- getMiles address = Miles (String.length address.street1)
+-- getMilesTo :: HasAddress -> Miles
+-- getMilesTo =
+--   getMiles
+--     <<< case _ of
+--         PersonAddress (Person { address }) -> address
+--         CompanyAddress (Company { address }) -> address
+--         ResidenceAddress (Home address) -> address
+--         ResidenceAddress (Facility address) -> address
+--         EmptyLotAddress (EmptyLot { address }) -> address
 test :: Effect Unit
 test = do
-  log $ show $ getDirectionsTo (PersonAddress person)
-  log $ show $ getDirectionsTo (CompanyAddress company)
-  log $ show $ getDirectionsTo (ResidenceAddress home)
-  log $ show $ getDirectionsTo (ResidenceAddress facility)
+  log $ show $ getDirections person
+  log $ show $ getDirections company
+  log $ show $ getDirections home
+  log $ show $ getDirections facility
