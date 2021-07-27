@@ -10,6 +10,7 @@ You can edit this file as you like.
   , "effect"
   , "lists"
   , "maybe"
+  , "newtype"
   , "prelude"
   , "psci-support"
   , "spec"

@@ -2,6 +2,7 @@ module Ch6 where
 
 import Prelude
 import Data.Generic.Rep (class Generic)
+import Data.Newtype (class Newtype, unwrap)
 import Data.Show.Generic (genericShow)
 import Effect (Effect)
 import Effect.Class.Console (log)
@@ -160,15 +161,6 @@ data SomeType
   | TheOther
   | AndYetAnother
 
-derive instance eqSomeType :: Eq SomeType
-
-derive instance ordSomeType :: Ord SomeType
-
-derive instance genericSomeType :: Generic SomeType _
-
-instance showSomeType :: Show SomeType where
-  show = genericShow
-
 -- Here is all the boiler plate the that the code abstract
 -- instance eqSomeType :: Eq SomeType where
 --   eq This This = true
@@ -194,9 +186,58 @@ instance showSomeType :: Show SomeType where
 --   show That = "That"
 --   show TheOther = "TheOther"
 --   show AndYetAnother = "AndYetAnother"
+derive instance eqSomeType :: Eq SomeType
+
+derive instance ordSomeType :: Ord SomeType
+
+derive instance genericSomeType :: Generic SomeType _
+
+instance showSomeType :: Show SomeType where
+  show = genericShow
+
+------------
+-- New type
+------------
+newtype FirstName
+  = FirstName String
+
+derive instance newTypeFirstName :: Newtype FirstName _
+
+newtype LastName
+  = LastName String
+
+derive instance newTypeLastName :: Newtype LastName _
+
+fullName :: FirstName -> LastName -> String
+fullName (FirstName first) (LastName last) = first <> " " <> last
+
+fullName' :: FirstName -> LastName -> String
+fullName' first last = unwrap first <> " " <> unwrap last
+
+-- generic magic 🦄
+glueNames ::
+  ∀ a b.
+  Newtype a String =>
+  Newtype b String =>
+  String ->
+  a ->
+  b ->
+  String
+glueNames between n1 n2 = unwrap n1 <> between <> unwrap n2
+
+lastNameFirst :: LastName -> FirstName -> String
+lastNameFirst = glueNames ", "
+
+fullName'' :: FirstName -> LastName -> String
+fullName'' = glueNames " "
+
 test :: Effect Unit
 test = do
   log $ show $ getDirections person
   log $ show $ getDirections company
   log $ show $ getDirections home
   log $ show $ getDirections facility
+  log $ show $ fullName (FirstName "Daniel") (LastName "Kuroski")
+  log $ show $ fullName' (FirstName "Daniel") (LastName "Kuroski")
+  log $ show $ lastNameFirst (LastName "Kuroski") (FirstName "Daniel")
+  log $ show $ fullName'' (FirstName "Daniel") (LastName "Kuroski")
