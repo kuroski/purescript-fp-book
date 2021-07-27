@@ -9,6 +9,31 @@ class HasAddress a where
   getAddress :: a -> Address
 
 -- Application
+data Place
+  = First
+  | Second
+  | Third
+
+instance eqPlace :: Eq Place where
+  eq First First = true
+  eq Second Second = true
+  eq Third Third = true
+  eq _ _ = false
+
+instance ordPlace :: Ord Place where
+  compare First First = EQ
+  compare First _ = LT
+  compare Second Third = LT
+  compare Second Second = EQ
+  compare Second First = GT
+  compare Third Third = EQ
+  compare Third _ = GT
+
+instance showPlace :: Show Place where
+  show First = "First"
+  show Second = "Second"
+  show Third = "Third"
+
 data Address
   = Address
     { street1 :: String
