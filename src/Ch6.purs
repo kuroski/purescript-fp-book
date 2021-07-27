@@ -1,6 +1,8 @@
 module Ch6 where
 
 import Prelude
+import Data.Generic.Rep (class Generic)
+import Data.Show.Generic (genericShow)
 import Effect (Effect)
 import Effect.Class.Console (log)
 
@@ -9,31 +11,6 @@ class HasAddress a where
   getAddress :: a -> Address
 
 -- Application
-data Place
-  = First
-  | Second
-  | Third
-
-instance eqPlace :: Eq Place where
-  eq First First = true
-  eq Second Second = true
-  eq Third Third = true
-  eq _ _ = false
-
-instance ordPlace :: Ord Place where
-  compare First First = EQ
-  compare First _ = LT
-  compare Second Third = LT
-  compare Second Second = EQ
-  compare Second First = GT
-  compare Third Third = EQ
-  compare Third _ = GT
-
-instance showPlace :: Show Place where
-  show First = "First"
-  show Second = "Second"
-  show Third = "Third"
-
 data Address
   = Address
     { street1 :: String
@@ -149,6 +126,74 @@ getDirections hasAddress =
   in
     address.street1 <> " " <> address.street2 <> " " <> address.city <> " " <> address.state <> " " <> address.zip
 
+-- Direved Instances
+-- manual work
+data Place
+  = First
+  | Second
+  | Third
+
+instance eqPlace :: Eq Place where
+  eq First First = true
+  eq Second Second = true
+  eq Third Third = true
+  eq _ _ = false
+
+instance ordPlace :: Ord Place where
+  compare First First = EQ
+  compare First _ = LT
+  compare Second Third = LT
+  compare Second Second = EQ
+  compare Second First = GT
+  compare Third Third = EQ
+  compare Third _ = GT
+
+instance showPlace :: Show Place where
+  show First = "First"
+  show Second = "Second"
+  show Third = "Third"
+
+-- derive work
+data SomeType
+  = This
+  | That
+  | TheOther
+  | AndYetAnother
+
+derive instance eqSomeType :: Eq SomeType
+
+derive instance ordSomeType :: Ord SomeType
+
+derive instance genericSomeType :: Generic SomeType _
+
+instance showSomeType :: Show SomeType where
+  show = genericShow
+
+-- Here is all the boiler plate the that the code abstract
+-- instance eqSomeType :: Eq SomeType where
+--   eq This This = true
+--   eq That That = true
+--   eq TheOther TheOther = true
+--   eq AndYetAnother AndYetAnother = true
+--   eq _ _ = false
+-- instance ordSomeType :: Ord SomeType where
+--   compare This This = EQ
+--   compare This _ = LT
+--   compare That TheOther = LT
+--   compare That AndYetAnother = LT
+--   compare That That = EQ
+--   compare That This = GT
+--   compare TheOther AndYetAnother = LT
+--   compare TheOther TheOther = EQ
+--   compare TheOther This = GT
+--   compare TheOther That = GT
+--   compare AndYetAnother AndYetAnother = EQ
+--   compare AndYetAnother _ = GT
+-- instance showSomeType :: Show SomeType where
+--   show This = "This"
+--   show That = "That"
+--   show TheOther = "TheOther"
+--   show AndYetAnother = "AndYetAnother"
 test :: Effect Unit
 test = do
   log $ show $ getDirections person
