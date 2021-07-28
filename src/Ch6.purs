@@ -27,18 +27,32 @@ instance eqAddress :: Eq Address where
 type Directions
   = String
 
-data Person
+newtype Person
   = Person
-    { name :: String
-    , age :: Int
-    , address :: Address
-    }
+  { name :: String
+  , age :: Int
+  , address :: Address
+  }
 
 instance hasAddressPerson :: HasAddress Person where
   getAddress (Person p) = p.address
 
 instance eqPerson :: Eq Person where
   eq (Person p1) (Person p2) = p1.name == p2.name && p1.age == p2.age && p1.address == p2.address
+
+newtype Ceo
+  = Ceo Person
+
+derive instance newtypeCeo :: Newtype Ceo _
+
+derive newtype instance hasAddressCeo :: HasAddress Ceo
+
+newtype Janitor
+  = Janitor Person
+
+derive instance newtypeJanitor :: Newtype Janitor _
+
+derive newtype instance hasAddressJanitor :: HasAddress Janitor
 
 data Company
   = Company
@@ -202,6 +216,8 @@ newtype FirstName
   = FirstName String
 
 derive instance newTypeFirstName :: Newtype FirstName _
+
+derive instance eqFirstName :: Eq FirstName
 
 newtype LastName
   = LastName String
