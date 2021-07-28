@@ -2,8 +2,12 @@ module Ch6 where
 
 import Prelude
 import Data.Generic.Rep (class Generic)
+import Data.List (List)
+import Data.List as List
+import Data.Maybe (Maybe)
 import Data.Newtype (class Newtype, unwrap)
 import Data.Show.Generic (genericShow)
+import Data.String.CodeUnits as String
 import Effect (Effect)
 import Effect.Class.Console (log)
 
@@ -273,6 +277,18 @@ instance isRecordRecord :: IsRecord (Record a) where
   isRecord _ = true
 else instance isRecordOther :: IsRecord a where
   isRecord _ = false
+
+---------
+-- Multi parametric typeclasses
+---------
+class Decapitate collection element where
+  decapitate :: collection -> Maybe { head :: element, tail :: collection }
+
+instance decapitateList :: Decapitate (List a) a where
+  decapitate = List.uncons
+
+instance decapitateString :: Decapitate String Char where
+  decapitate = String.uncons
 
 test :: Effect Unit
 test = do

@@ -14,6 +14,7 @@ You can edit this file as you like.
   , "prelude"
   , "psci-support"
   , "spec"
+  , "strings"
   , "tuples"
   ]
 , packages = ./packages.dhall
