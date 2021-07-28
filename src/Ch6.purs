@@ -247,6 +247,33 @@ lastNameFirst = glueNames ", "
 fullName'' :: FirstName -> LastName -> String
 fullName'' = glueNames " "
 
+--------
+-- Overlapping instances
+--------
+class Combine a where
+  combine :: a -> a -> a
+
+newtype AddInt
+  = AddInt Int
+
+newtype MultInt
+  = MultInt Int
+
+instance combineAddInt :: Combine AddInt where
+  combine (AddInt x) (AddInt y) = AddInt (x + y)
+
+instance combineMultInt :: Combine MultInt where
+  combine (MultInt x) (MultInt y) = MultInt (x * y)
+
+--
+class IsRecord a where
+  isRecord :: a -> Boolean
+
+instance isRecordRecord :: IsRecord (Record a) where
+  isRecord _ = true
+else instance isRecordOther :: IsRecord a where
+  isRecord _ = false
+
 test :: Effect Unit
 test = do
   log $ show $ getDirections person
