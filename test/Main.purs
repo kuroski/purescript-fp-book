@@ -2,6 +2,7 @@ module Test.Main where
 
 import Prelude
 import Ch5 as Ch5
+import Ch7a as Ch7a
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -114,3 +115,10 @@ main =
               Ch5.unzip ((Tuple 1 "a") : (Tuple 2 "b") : (Tuple 3 "c") : Nil) `shouldEqual` (Tuple (1 : 2 : 3 : Nil) ("a" : "b" : "c" : Nil))
               Ch5.unzip ((Tuple "a" 1) : (Tuple "b" 2) : (Tuple "c" 3) : Nil) `shouldEqual` (Tuple ("a" : "b" : "c" : Nil) (1 : 2 : 3 : Nil))
               Ch5.unzip (Nil :: List (Tuple Unit Unit)) `shouldEqual` (Tuple Nil Nil)
+        describe "Ch7a" do
+          it "Maybe Eq" do
+            (Ch7a.Just 5 == Ch7a.Just 5) `shouldEqual` true
+            (Ch7a.Just 5 == Ch7a.Just 2) `shouldEqual` false
+            (Ch7a.Just 5 == Ch7a.Nothing) `shouldEqual` false
+            (Ch7a.Nothing == Ch7a.Just 5) `shouldEqual` false
+            (Ch7a.Nothing == (Ch7a.Nothing :: Ch7a.Maybe Unit)) `shouldEqual` true
