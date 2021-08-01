@@ -1,7 +1,14 @@
 module Ch7a where
 
 import Data.Eq (class Eq)
-import Prelude (class Ord, compare, Ordering(..), (==))
+import Prelude (class Ord, Ordering(..), compare, (==), (||))
+
+greaterThanOrEq :: ∀ a. Ord a => a -> a -> Boolean
+greaterThanOrEq a1 a2 = cmp == GT || cmp == EQ
+  where
+  cmp = compare a1 a2
+
+infixl 4 greaterThanOrEq as >=
 
 data Maybe a
   = Nothing
