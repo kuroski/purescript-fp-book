@@ -137,7 +137,7 @@ main =
             (show $ (Ch7a.Left "left" :: Ch7a.Either _ Unit)) `shouldEqual` "(Left \"left\")"
             (show $ (Ch7a.Right (Ch7a.Just 42) :: Ch7a.Either Unit _)) `shouldEqual` "(Right (Just 42))"
         describe "Ch7b" do
-          it "Prints a person CSV" do
+          it "Converts a person to CSV" do
             Ch7b.toCSV
               ( Ch7b.Person
                   { name: Ch7b.FullName "Daniel Kuroski"
@@ -147,3 +147,13 @@ main =
               )
               `shouldEqual`
                 Ch7b.CSV "Daniel Kuroski,30,Developer"
+          it "Converts a person from CSV" do
+            let
+              person =
+                Ch7b.Person
+                  { name: Ch7b.FullName "Daniel Kuroski"
+                  , age: Ch7b.Age 30
+                  , occupation: Ch7b.Developer
+                  }
+            (Ch7b.toCSV person Ch5.# Ch7b.fromCSV) `shouldEqual` Just person
+            (Ch7b.fromCSV (Ch7b.CSV "Daniel Kuroski,30,Developer")) `shouldEqual` Just person
