@@ -3,6 +3,7 @@ module Test.Main where
 import Prelude
 import Ch5 as Ch5
 import Ch7a as Ch7a
+import Ch7b as Ch7b
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -135,3 +136,14 @@ main =
           it "Either" do
             (show $ (Ch7a.Left "left" :: Ch7a.Either _ Unit)) `shouldEqual` "(Left \"left\")"
             (show $ (Ch7a.Right (Ch7a.Just 42) :: Ch7a.Either Unit _)) `shouldEqual` "(Right (Just 42))"
+        describe "Ch7b" do
+          it "Prints a person CSV" do
+            Ch7b.toCSV
+              ( Ch7b.Person
+                  { name: Ch7b.FullName "Daniel Kuroski"
+                  , age: Ch7b.Age 30
+                  , occupation: Ch7b.Developer
+                  }
+              )
+              `shouldEqual`
+                Ch7b.CSV "Daniel Kuroski,30,Developer"
