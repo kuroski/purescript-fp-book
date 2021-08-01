@@ -122,3 +122,10 @@ main =
             (Ch7a.Just 5 == Ch7a.Nothing) `shouldEqual` false
             (Ch7a.Nothing == Ch7a.Just 5) `shouldEqual` false
             (Ch7a.Nothing == (Ch7a.Nothing :: Ch7a.Maybe Unit)) `shouldEqual` true
+          it "Maybe Ord" do
+            (Ch7a.Just 1 < Ch7a.Just 5) `shouldEqual` true
+            (Ch7a.Just 5 <= Ch7a.Just 5) `shouldEqual` true
+            (Ch7a.Just 5 > Ch7a.Just 10) `shouldEqual` false
+            (Ch7a.Just 10 >= Ch7a.Just 10) `shouldEqual` true
+            (Ch7a.Just 99 > Ch7a.Nothing) `shouldEqual` true
+            (Ch7a.Just 99 < Ch7a.Nothing) `shouldEqual` false
