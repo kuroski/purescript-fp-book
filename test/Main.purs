@@ -129,3 +129,6 @@ main =
             (Ch7a.Just 10 Ch7a.>= Ch7a.Just 10) `shouldEqual` true
             (Ch7a.Just 99 > Ch7a.Nothing) `shouldEqual` true
             (Ch7a.Just 99 < Ch7a.Nothing) `shouldEqual` false
+          it "Maybe Show" do
+            (show $ Ch7a.Just "abc") `shouldEqual` "(Just \"abc\")"
+            (show $ (Ch7a.Nothing :: Ch7a.Maybe Unit)) `shouldEqual` "Nothing"
