@@ -132,3 +132,6 @@ main =
           it "Maybe Show" do
             (show $ Ch7a.Just "abc") `shouldEqual` "(Just \"abc\")"
             (show $ (Ch7a.Nothing :: Ch7a.Maybe Unit)) `shouldEqual` "Nothing"
+          it "Either" do
+            (show $ (Ch7a.Left "left" :: Ch7a.Either _ Unit)) `shouldEqual` "(Left \"left\")"
+            (show $ (Ch7a.Right (Ch7a.Just 42) :: Ch7a.Either Unit _)) `shouldEqual` "(Right (Just 42))"

@@ -36,3 +36,17 @@ derive instance genericMaybe :: Generic (Maybe a) _
 
 instance showMaybe :: Show a => Show (Maybe a) where
   show = genericShow
+
+-- Either typeclass
+data Either a b
+  = Left a
+  | Right b
+
+derive instance eqEither :: (Eq a, Eq b) => Eq (Either a b)
+
+derive instance ordEither :: (Ord a, Ord b) => Ord (Either a b)
+
+derive instance genericEither :: Generic (Either a b) _
+
+instance showEither :: (Show a, Show b) => Show (Either a b) where
+  show = genericShow
