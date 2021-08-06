@@ -158,8 +158,12 @@ main =
                   }
             (Ch7b.toCSV person Ch5.# Ch7b.fromCSV) `shouldEqual` Just person
             (Ch7b.fromCSV (Ch7b.CSV "Daniel Kuroski,30,Developer")) `shouldEqual` Just person
-        describe "Ch9" do
-          it "Creates custom 'Boolean' Binary Operator" do
+        describe "Ch9 - ABoolean custom Binary operator" do
+          it "is a Semigroup" do
             (show $ Ch9.ATrue Ch9.<> Ch9.ATrue) `shouldEqual` "ATrue"
             (show $ Ch9.ATrue Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
             (show $ Ch9.AFalse Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
+            ((Ch9.AFalse Ch9.<> Ch9.ATrue) Ch9.<> Ch9.ATrue == Ch9.AFalse Ch9.<> (Ch9.ATrue Ch9.<> Ch9.ATrue)) `shouldEqual` true
+          it "is a Monoid" do
+            (Ch9.mempt Ch9.<> Ch9.ATrue == Ch9.ATrue) `shouldEqual` true
+            (Ch9.mempt Ch9.<> Ch9.AFalse == Ch9.ATrue) `shouldEqual` false

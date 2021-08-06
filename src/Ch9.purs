@@ -115,3 +115,6 @@ instance showAndBool :: Show AndBool where
 instance semigroupAndBool :: Semigroup AndBool where
   append ATrue ATrue = ATrue
   append _ _ = AFalse
+
+instance monoidAndBool :: Monoid AndBool where
+  mempt = ATrue
