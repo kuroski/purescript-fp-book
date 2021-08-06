@@ -4,6 +4,7 @@ import Prelude
 import Ch5 as Ch5
 import Ch7a as Ch7a
 import Ch7b as Ch7b
+import Ch9 as Ch9
 import Data.Array (length, tail, (..))
 import Data.List (List(..), (:))
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -157,3 +158,8 @@ main =
                   }
             (Ch7b.toCSV person Ch5.# Ch7b.fromCSV) `shouldEqual` Just person
             (Ch7b.fromCSV (Ch7b.CSV "Daniel Kuroski,30,Developer")) `shouldEqual` Just person
+        describe "Ch9" do
+          it "Creates custom 'Boolean' Binary Operator" do
+            (show $ Ch9.ATrue Ch9.<> Ch9.ATrue) `shouldEqual` "ATrue"
+            (show $ Ch9.ATrue Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
+            (show $ Ch9.AFalse Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"

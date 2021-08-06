@@ -1,6 +1,8 @@
 module Ch9 where
 
-import Prelude (Unit)
+import Data.Generic.Rep (class Generic)
+import Data.Show.Generic (genericShow)
+import Prelude (class Show, class Eq)
 
 -- | #### MAGMA
 -- |
@@ -100,3 +102,16 @@ infixr 5 append as <>
 class
   Semigroup a <= Monoid a where
   mempt :: a
+
+-- Semigroup for AndBool
+
+data AndBool = AFalse | ATrue
+derive instance eqAndBool :: Eq AndBool
+derive instance genericAndBool :: Generic AndBool _
+
+instance showAndBool :: Show AndBool where
+  show = genericShow
+
+instance semigroupAndBool :: Semigroup AndBool where
+  append ATrue ATrue = ATrue
+  append _ _ = AFalse
