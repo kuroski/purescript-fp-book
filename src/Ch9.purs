@@ -173,3 +173,39 @@ instance monoidOrBool :: Monoid OrBool where
 class
   Monoid a <= Group a where
   ginverse :: a -> a
+
+-- Mod4 Data Type
+data Mod4
+  = Zero
+  | One
+  | Two
+  | Three
+
+derive instance eqMod4 :: Eq Mod4
+
+derive instance genericMod4 :: Generic Mod4 _
+
+instance showMod4 :: Show Mod4 where
+  show = genericShow
+
+instance semigroupMod4 :: Semigroup Mod4 where
+  append Zero x = x
+  append x Zero = x
+  append One One = Two
+  append One Two = Three
+  append One Three = Zero
+  append Two One = Three
+  append Two Two = Zero
+  append Two Three = One
+  append Three One = Zero
+  append Three Two = One
+  append Three Three = Two
+
+instance monoidMod4 :: Monoid Mod4 where
+  mempt = Zero
+
+instance groupMod4 :: Group Mod4 where
+  ginverse Zero = Zero
+  ginverse One = Three
+  ginverse Two = Two
+  ginverse Three = One

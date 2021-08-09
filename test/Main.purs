@@ -177,3 +177,8 @@ main =
             it "is a Monoid" do
               (Ch9.mempt Ch9.<> Ch9.OFalse == Ch9.OFalse) `shouldEqual` true
               (Ch9.mempt Ch9.<> Ch9.OFalse == Ch9.OTrue) `shouldEqual` false
+          describe "Mod4 data type" do
+            it "is a Semigroup" do
+              ((Ch9.One Ch9.<> Ch9.Two) Ch9.<> Ch9.Three == Ch9.One Ch9.<> (Ch9.Two Ch9.<> Ch9.Three)) `shouldEqual` true
+            it "is a Monoid" do
+              (Ch9.mempt Ch9.<> Ch9.One == Ch9.One Ch9.<> Ch9.mempt && Ch9.One Ch9.<> Ch9.mempt == Ch9.One) `shouldEqual` true
