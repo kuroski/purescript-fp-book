@@ -103,10 +103,13 @@ class
   Semigroup a <= Monoid a where
   mempt :: a
 
--- Semigroup for AndBool
+-- AndBool
+data AndBool
+  = AFalse
+  | ATrue
 
-data AndBool = AFalse | ATrue
 derive instance eqAndBool :: Eq AndBool
+
 derive instance genericAndBool :: Generic AndBool _
 
 instance showAndBool :: Show AndBool where
@@ -118,3 +121,22 @@ instance semigroupAndBool :: Semigroup AndBool where
 
 instance monoidAndBool :: Monoid AndBool where
   mempt = ATrue
+
+-- Semigroup and Monoid for OrBool
+data OrBool
+  = OFalse
+  | OTrue
+
+derive instance eqOrBool :: Eq OrBool
+
+derive instance genericOrBool :: Generic OrBool _
+
+instance showOrBool :: Show OrBool where
+  show = genericShow
+
+instance semigroupOrBool :: Semigroup OrBool where
+  append OFalse OFalse = OFalse
+  append _ _ = OTrue
+
+instance monoidOrBool :: Monoid OrBool where
+  mempt = OFalse

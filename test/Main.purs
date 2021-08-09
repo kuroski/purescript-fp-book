@@ -158,12 +158,22 @@ main =
                   }
             (Ch7b.toCSV person Ch5.# Ch7b.fromCSV) `shouldEqual` Just person
             (Ch7b.fromCSV (Ch7b.CSV "Daniel Kuroski,30,Developer")) `shouldEqual` Just person
-        describe "Ch9 - ABoolean custom Binary operator" do
-          it "is a Semigroup" do
-            (show $ Ch9.ATrue Ch9.<> Ch9.ATrue) `shouldEqual` "ATrue"
-            (show $ Ch9.ATrue Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
-            (show $ Ch9.AFalse Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
-            ((Ch9.AFalse Ch9.<> Ch9.ATrue) Ch9.<> Ch9.ATrue == Ch9.AFalse Ch9.<> (Ch9.ATrue Ch9.<> Ch9.ATrue)) `shouldEqual` true
-          it "is a Monoid" do
-            (Ch9.mempt Ch9.<> Ch9.ATrue == Ch9.ATrue) `shouldEqual` true
-            (Ch9.mempt Ch9.<> Ch9.AFalse == Ch9.ATrue) `shouldEqual` false
+        describe "Ch9" do
+          describe "ABoolean custom Binary operator" do
+            it "is a Semigroup" do
+              (show $ Ch9.ATrue Ch9.<> Ch9.ATrue) `shouldEqual` "ATrue"
+              (show $ Ch9.ATrue Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
+              (show $ Ch9.AFalse Ch9.<> Ch9.AFalse) `shouldEqual` "AFalse"
+              ((Ch9.AFalse Ch9.<> Ch9.ATrue) Ch9.<> Ch9.ATrue == Ch9.AFalse Ch9.<> (Ch9.ATrue Ch9.<> Ch9.ATrue)) `shouldEqual` true
+            it "is a Monoid" do
+              (Ch9.mempt Ch9.<> Ch9.ATrue == Ch9.ATrue) `shouldEqual` true
+              (Ch9.mempt Ch9.<> Ch9.AFalse == Ch9.ATrue) `shouldEqual` false
+          describe "OBoolean custom Binary operator" do
+            it "is a Semigroup" do
+              (show $ Ch9.OTrue Ch9.<> Ch9.OTrue) `shouldEqual` "OTrue"
+              (show $ Ch9.OTrue Ch9.<> Ch9.OFalse) `shouldEqual` "OTrue"
+              (show $ Ch9.OFalse Ch9.<> Ch9.OFalse) `shouldEqual` "OFalse"
+              ((Ch9.OFalse Ch9.<> Ch9.OTrue) Ch9.<> Ch9.OTrue == Ch9.OFalse Ch9.<> (Ch9.OTrue Ch9.<> Ch9.OTrue)) `shouldEqual` true
+            it "is a Monoid" do
+              (Ch9.mempt Ch9.<> Ch9.OFalse == Ch9.OFalse) `shouldEqual` true
+              (Ch9.mempt Ch9.<> Ch9.OFalse == Ch9.OTrue) `shouldEqual` false
