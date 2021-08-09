@@ -140,3 +140,36 @@ instance semigroupOrBool :: Semigroup OrBool where
 
 instance monoidOrBool :: Monoid OrBool where
   mempt = OFalse
+
+-- | #### Group
+-- |
+-- | A Group is a Monoid where every element of the Set has an Unique Inverse
+-- | 
+-- | A formal definition of a Monoid
+-- | `∀ a ∈ G, a' ∈ G, e ∈ G ⇒ a • a' = a' • a = e` 
+-- | 
+-- |  Where M is the Monoid Set
+-- |   ```
+-- |   ∀ a ∈ G                (For all a that is an element of G)
+-- |   a' ∈ G                 (and a' that is an element of G)
+-- |   e ∈ G                  (and e that is an element of G)
+-- |   ⇒                      (it follows that)
+-- |   a • a' = a' • a = e    (applying a to a' is equal to
+-- |                           applying a' to a which is equal to e)
+-- |   ```
+-- |
+-- | Essentially, a' is the Unique Inverse of a, and e is the Empty element (Identity)
+-- | 
+-- | E.g:
+-- |  ```
+-- |  G = { ..., -3, -3, -1, 0, 1, 2, 3, ...} and • = +, e = 0 
+-- |  ```
+-- | 
+-- | E.g2:
+-- |  ```
+-- |  G = { ..., 1/3, 1/2, 1, 2, 3, ... } and • = *, e = 1
+-- |  ```
+-- |  1 is its own Inverse (1 * 1 = 1), and it's the identity for every element including itself.
+class
+  Monoid a <= Group a where
+  ginverse :: a -> a
